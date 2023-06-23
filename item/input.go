@@ -17,3 +17,7 @@ type ItemInput struct {
 // type FilterInput struct {
 // 	TagID []int `json:"tags" binding:"required"`
 // }
+
+type OrderInput struct {
+	ID int `json:"id" binding:"required"`
+}

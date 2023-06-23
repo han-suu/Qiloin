@@ -232,6 +232,7 @@ func Ambil(c *gin.Context) string {
 func convertToResponse(b auth.User) auth.UserResponse {
 
 	user := auth.UserResponse{
+		ID:      b.ID,
 		Name:    b.Name,
 		Email:   b.Email,
 		Phone:   b.Phone,

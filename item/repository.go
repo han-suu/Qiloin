@@ -21,6 +21,9 @@ type Repository interface {
 	// GetSongByTag(tagid int) ([]SongTag, error)
 	// GetTagsBySong(songidid int) ([]SongTag, error)
 	// FilterTag(tagid []int) ([]SongTag, error)
+	Order(order Orders) (Orders, error)
+	FindOrderByID(id int) (Orders, error)
+	ACC(order Orders) (Orders, error)
 }
 
 type repository struct {
@@ -114,6 +117,45 @@ func (r *repository) Create(item Item) (Item, error) {
 	}
 
 	return item, err
+}
+
+func (r *repository) Order(order Orders) (Orders, error) {
+
+	err := r.db.Create(&order).Error
+
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE ORDERING")
+		println("=====================")
+	}
+
+	return order, err
+}
+
+func (r *repository) FindOrderByID(ID int) (Orders, error) {
+	var tag Orders
+
+	err := r.db.Find(&tag, ID).Error
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE FBI")
+		println("=====================")
+	}
+
+	return tag, err
+}
+
+func (r *repository) ACC(order Orders) (Orders, error) {
+
+	err := r.db.Save(&order).Error
+
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE Updating")
+		println("=====================")
+	}
+
+	return order, err
 }
 
 // func (r *repository) UpdateTag(tag Tag) (Tag, error) {

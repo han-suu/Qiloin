@@ -1,5 +1,7 @@
 package item
 
+import "ntika/auth"
+
 // import "fmt"
 
 type Service interface {
@@ -17,6 +19,8 @@ type Service interface {
 	// GetSongByTag(tagid int) ([]SongTag, error)
 	// GetTagsBySong(songid int) ([]SongTag, error)
 	// FilterTag(tagid FilterInput) ([]SongTag, error)
+	Order(user auth.User) (Orders, error)
+	ACC(order OrderInput) (Orders, error)
 }
 
 type service struct {
@@ -58,6 +62,28 @@ func (s *service) Create(itemInput ItemInput) (Item, error) {
 		// Discount:    bookInput.Discount,
 	}
 	newtag, err := s.repository.Create(item)
+	return newtag, err
+}
+
+func (s *service) Order(user auth.User) (Orders, error) {
+	// fmt.Println(tagInput.Tag)
+	order := Orders{
+		User_ID: user.ID,
+		Address: user.Address,
+		Status:  "Menunggu ACC",
+	}
+	newtag, err := s.repository.Order(order)
+	return newtag, err
+}
+
+func (s *service) ACC(orderInput OrderInput) (Orders, error) {
+	// fmt.Println(tagInput.Tag)
+	order, _ := s.repository.FindOrderByID(orderInput.ID)
+	// order := Orders{
+	// 	Status: "Menunggu ACC",
+	// }
+	order.Status = "ACC, Driver OTW"
+	newtag, err := s.repository.ACC(order)
 	return newtag, err
 }
 

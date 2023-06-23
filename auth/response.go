@@ -11,6 +11,7 @@ type SongResponse struct {
 }
 
 type UserResponse struct {
+	ID      int
 	Name    string
 	Email   string
 	Phone   string
