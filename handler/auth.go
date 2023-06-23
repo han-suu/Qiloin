@@ -136,9 +136,20 @@ func (h *handler) UserProfile(c *gin.Context) {
 	// 	return
 	// }
 
-	user, _ := c.Get("user")
+	// user, _ := c.Get("user")
+	user_email := Ambil(c)
+	user, err := h.userService.FindByEmail(user_email)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": err,
+		})
+		return
+	}
+
+	u := convertToResponse(user)
 	c.JSON(http.StatusOK, gin.H{
-		"You": user,
+		"data": u,
 	})
 }
 
@@ -216,4 +227,21 @@ func Ambil(c *gin.Context) string {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 	return "x"
+}
+
+func convertToResponse(b auth.User) auth.UserResponse {
+
+	user := auth.UserResponse{
+		Name:    b.Name,
+		Email:   b.Email,
+		Phone:   b.Phone,
+		Address: b.Address,
+		// Title:       b.Title,
+		// Price:       b.Price,
+		// Description: b.Description,
+		// Rating:      b.Rating,
+		// Discount:    b.Discount,
+	}
+	return user
+
 }

@@ -15,6 +15,7 @@ type Service interface {
 	// UpdateSong(ID int, songInput SongInput) (Song, error)
 	// Delete(ID int) (Song, error)
 	UpdateAddress(addressInput AddressInput, user_email string) (User, error)
+	// Call(user_email string) (User, error)
 }
 
 type service struct {

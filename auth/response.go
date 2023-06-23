@@ -11,8 +11,8 @@ type SongResponse struct {
 }
 
 type UserResponse struct {
-	FullName string
-	UserName string
-	Email    string
-	Phone    string
+	Name    string
+	Email   string
+	Phone   string
+	Address string
 }

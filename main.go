@@ -52,13 +52,19 @@ func main() {
 	// dev only
 	v1.GET("/users", middleware.RequireAuth, userHandler.GetAllUsers)
 
+	// AUTH
 	v1.POST("/sign-up", userHandler.CreateUser)
 	v1.POST("/sign-in", userHandler.SignIn)
 
 	// v1.Static("/image", "./static/")
-	// v1.GET("/catalog", itemHandler.Catalog)
+
+	// GET ALL PRODUCTS
+	v1.GET("/items", itemHandler.Catalog)
+	// CREATE PRODUCT
 	v1.POST("/item", itemHandler.Create)
-	// v1.GET("/user", middleware.RequireAuth, userHandler.UserProfile)
+	// GET USER PROFILE
+	v1.GET("/user", middleware.RequireAuth, userHandler.UserProfile)
+	// v1.GET("/user", middleware.RequireAuth, userHandler.Call)
 	// v1.POST("/cange_address", userHandler.UpdateAddress)
 
 	// =================================================================================
