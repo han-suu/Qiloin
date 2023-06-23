@@ -29,6 +29,8 @@ type OrderItemInput struct {
 }
 
 type UpdateOrderInput struct {
-	ID         int              `json:"id" binding:"required"`
-	OrderItems []OrderItemInput `json:"order_items" binding:"required"`
+	ID              int              `json:"id" binding:"required"`
+	Shipping_Fee    int              `json:"shipping_fee"`
+	Shipping_Method string           `json:"shipping_method"`
+	OrderItems      []OrderItemInput `json:"order_items" binding:"required"`
 }

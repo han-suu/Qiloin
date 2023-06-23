@@ -104,7 +104,20 @@ func (s *service) UpdateOrder(orderInput UpdateOrderInput) (Orders, error) {
 		_, _ = s.repository.CreateOrderItem(order_item)
 	}
 
+	orderItems, _ := s.repository.FindOrderItemByOrderID(orderInput.ID)
+
+	subtotal := 0
+	for _, order_item := range orderItems {
+		subtotal += order_item.Price
+
+	}
+
 	order.Status = "Menunggu Konfirmasi Pelanggan"
+	order.Sub_Total = subtotal
+	order.Shipping_Fee = orderInput.Shipping_Fee
+	total_price := subtotal + orderInput.Shipping_Fee
+	order.Total_Price = total_price
+	order.Shipping_Method = orderInput.Shipping_Method
 	newtag, err := s.repository.UpdateOrderInput(order)
 	return newtag, err
 }
