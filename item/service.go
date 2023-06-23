@@ -21,6 +21,7 @@ type Service interface {
 	// FilterTag(tagid FilterInput) ([]SongTag, error)
 	Order(user auth.User) (Orders, error)
 	ACC(order OrderInput) (Orders, error)
+	UpdateOrder(update_order UpdateOrderInput) (Orders, error)
 }
 
 type service struct {
@@ -84,6 +85,27 @@ func (s *service) ACC(orderInput OrderInput) (Orders, error) {
 	// }
 	order.Status = "ACC, Driver OTW"
 	newtag, err := s.repository.ACC(order)
+	return newtag, err
+}
+
+func (s *service) UpdateOrder(orderInput UpdateOrderInput) (Orders, error) {
+	// fmt.Println(tagInput.Tag)
+	order, _ := s.repository.FindOrderByID(orderInput.ID)
+	// order := Orders{
+	// 	Status: "Menunggu ACC",
+	// }
+	for _, order_item := range orderInput.OrderItems {
+		order_item := OrderItem{
+			Order_ID:   orderInput.ID,
+			Product_ID: order_item.Product_ID,
+			Quantity:   order_item.Quantity,
+			Price:      order_item.Price,
+		}
+		_, _ = s.repository.CreateOrderItem(order_item)
+	}
+
+	order.Status = "Menunggu Konfirmasi Pelanggan"
+	newtag, err := s.repository.UpdateOrderInput(order)
 	return newtag, err
 }
 

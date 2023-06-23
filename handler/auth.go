@@ -76,6 +76,10 @@ func (h *handler) SignIn(c *gin.Context) {
 	}
 
 	res, err := h.userService.SignIn(signin)
+	type Response struct {
+		msg   string
+		token string
+	}
 	msg := fmt.Sprintf("Berhasil Login Sebagai %s", res.Email)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -95,10 +99,14 @@ func (h *handler) SignIn(c *gin.Context) {
 				"msg": err,
 			})
 		}
-		c.SetSameSite(http.SameSiteLaxMode)
-		c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+		// c.SetSameSite(http.SameSiteLaxMode)
+		// c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+		s := Response{msg: msg, token: tokenString}
+
+		sp := &s
+
 		c.JSON(http.StatusOK, gin.H{
-			"msg": msg,
+			"data": sp.token,
 		})
 	}
 

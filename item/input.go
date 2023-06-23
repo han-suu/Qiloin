@@ -21,3 +21,14 @@ type ItemInput struct {
 type OrderInput struct {
 	ID int `json:"id" binding:"required"`
 }
+
+type OrderItemInput struct {
+	Product_ID int `json:"product_id" binding:"required"`
+	Quantity   int `json:"qty" binding:"required"`
+	Price      int `json:"price" binding:"required"`
+}
+
+type UpdateOrderInput struct {
+	ID         int              `json:"id" binding:"required"`
+	OrderItems []OrderItemInput `json:"order_items" binding:"required"`
+}

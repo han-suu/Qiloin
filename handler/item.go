@@ -142,6 +142,31 @@ func (h *handlerTag) ACC(c *gin.Context) {
 	})
 }
 
+func (h *handlerTag) UpdateOrder(c *gin.Context) {
+
+	var item item.UpdateOrderInput
+	err := c.ShouldBind(&item)
+	if err != nil {
+
+		messages := []string{}
+
+		for _, e := range err.(validator.ValidationErrors) {
+			errormsg := fmt.Sprintf("Error pada field %s, condition %s", e.Field(), e.ActualTag())
+			messages = append(messages, errormsg)
+		}
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": messages,
+		})
+		return
+
+	}
+	order, _ := h.itemService.UpdateOrder(item)
+
+	c.JSON(http.StatusOK, gin.H{
+		"msg": order,
+	})
+}
+
 // func (h *handlerTag) UpdateTag(c *gin.Context) {
 // 	var tag tag.TagInput
 

@@ -32,6 +32,7 @@ func main() {
 	db.AutoMigrate(&auth.User{})
 	db.AutoMigrate(&item.Item{})
 	db.AutoMigrate(&item.Orders{})
+	db.AutoMigrate(&item.OrderItem{})
 
 	userRepository := auth.NewRepo(db)
 	userService := auth.NewService(userRepository)
@@ -67,7 +68,9 @@ func main() {
 
 	v1.POST("/order", middleware.RequireAuth, itemHandler.Order)
 
+	// TODO : harus admin
 	v1.PUT("/admin/acc", middleware.RequireAuth, itemHandler.ACC)
+	v1.PUT("/admin/update_order", middleware.RequireAuth, itemHandler.UpdateOrder)
 	// v1.GET("/user", middleware.RequireAuth, userHandler.Call)
 	// v1.POST("/cange_address", userHandler.UpdateAddress)
 

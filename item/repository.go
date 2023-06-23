@@ -24,6 +24,8 @@ type Repository interface {
 	Order(order Orders) (Orders, error)
 	FindOrderByID(id int) (Orders, error)
 	ACC(order Orders) (Orders, error)
+	CreateOrderItem(orderItem OrderItem) (OrderItem, error)
+	UpdateOrderInput(order Orders) (Orders, error)
 }
 
 type repository struct {
@@ -146,6 +148,32 @@ func (r *repository) FindOrderByID(ID int) (Orders, error) {
 }
 
 func (r *repository) ACC(order Orders) (Orders, error) {
+
+	err := r.db.Save(&order).Error
+
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE Updating")
+		println("=====================")
+	}
+
+	return order, err
+}
+
+func (r *repository) CreateOrderItem(orderItem OrderItem) (OrderItem, error) {
+
+	err := r.db.Create(&orderItem).Error
+
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE MakeOrderItem")
+		println("=====================")
+	}
+
+	return orderItem, err
+}
+
+func (r *repository) UpdateOrderInput(order Orders) (Orders, error) {
 
 	err := r.db.Save(&order).Error
 
