@@ -23,6 +23,7 @@ type Service interface {
 	ACC(order OrderInput) (Orders, error)
 	UpdateOrder(update_order UpdateOrderInput) (Orders, error)
 	UserOrders(userID int) ([]Orders, error)
+	AdminOrders() ([]Orders, error)
 }
 
 type service struct {
@@ -81,6 +82,14 @@ func (s *service) Order(user auth.User) (Orders, error) {
 func (s *service) UserOrders(userID int) ([]Orders, error) {
 	// fmt.Println(tagInput.Tag)
 	orders, err := s.repository.FindOrdersByUser(userID)
+
+	// newtag, err := s.repository.Order(order)
+	return orders, err
+}
+
+func (s *service) AdminOrders() ([]Orders, error) {
+	// fmt.Println(tagInput.Tag)
+	orders, err := s.repository.AdminOrders()
 
 	// newtag, err := s.repository.Order(order)
 	return orders, err

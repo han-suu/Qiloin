@@ -66,12 +66,14 @@ func main() {
 	// GET USER PROFILE
 	v1.GET("/user", middleware.RequireAuth, userHandler.UserProfile)
 	v1.GET("/user/orders", middleware.RequireAuth, itemHandler.UserOrders)
+	v1.POST("/change_address", middleware.RequireAuth, userHandler.UpdateAddress)
 
 	v1.POST("/order", middleware.RequireAuth, itemHandler.Order)
 
 	// TODO : harus admin
 	v1.PUT("/admin/acc", middleware.RequireAuth, itemHandler.ACC)
 	v1.PUT("/admin/update_order", middleware.RequireAuth, itemHandler.UpdateOrder)
+	v1.GET("/admin/orders", middleware.RequireAuth, itemHandler.AdminOrders)
 	// v1.GET("/user", middleware.RequireAuth, userHandler.Call)
 	// v1.POST("/cange_address", userHandler.UpdateAddress)
 

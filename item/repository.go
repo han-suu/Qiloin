@@ -28,6 +28,7 @@ type Repository interface {
 	UpdateOrderInput(order Orders) (Orders, error)
 	FindOrderItemByOrderID(id int) ([]OrderItem, error)
 	FindOrdersByUser(id int) ([]Orders, error)
+	AdminOrders() ([]Orders, error)
 }
 
 type repository struct {
@@ -210,6 +211,20 @@ func (r *repository) FindOrdersByUser(id int) ([]Orders, error) {
 	if err != nil {
 		println("=====================")
 		println("ERROR WHILE FBI")
+		println("=====================")
+	}
+
+	return orders, err
+}
+
+func (r *repository) AdminOrders() ([]Orders, error) {
+	var orders []Orders
+
+	// err := r.db.Find(&tag, ID).Error
+	err := r.db.Debug().Find(&orders).Error
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE FAO")
 		println("=====================")
 	}
 
