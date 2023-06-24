@@ -167,6 +167,20 @@ func (h *handlerTag) UpdateOrder(c *gin.Context) {
 	})
 }
 
+func (h *handlerTag) UserOrders(c *gin.Context) {
+
+	user_email := Ambil(c)
+	user, err := h.userService.FindByEmail(user_email)
+	if err != nil {
+		println("err")
+	}
+	order, err := h.itemService.UserOrders(user.ID)
+
+	c.JSON(http.StatusOK, gin.H{
+		"msg": order,
+	})
+}
+
 // func (h *handlerTag) UpdateTag(c *gin.Context) {
 // 	var tag tag.TagInput
 

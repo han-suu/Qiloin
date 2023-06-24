@@ -65,6 +65,7 @@ func main() {
 	v1.POST("/item", itemHandler.Create)
 	// GET USER PROFILE
 	v1.GET("/user", middleware.RequireAuth, userHandler.UserProfile)
+	v1.GET("/user/orders", middleware.RequireAuth, itemHandler.UserOrders)
 
 	v1.POST("/order", middleware.RequireAuth, itemHandler.Order)
 

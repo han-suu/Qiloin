@@ -27,6 +27,7 @@ type Repository interface {
 	CreateOrderItem(orderItem OrderItem) (OrderItem, error)
 	UpdateOrderInput(order Orders) (Orders, error)
 	FindOrderItemByOrderID(id int) ([]OrderItem, error)
+	FindOrdersByUser(id int) ([]Orders, error)
 }
 
 type repository struct {
@@ -199,6 +200,20 @@ func (r *repository) FindOrderItemByOrderID(ID int) ([]OrderItem, error) {
 	}
 
 	return orderItem, err
+}
+
+func (r *repository) FindOrdersByUser(id int) ([]Orders, error) {
+	var orders []Orders
+
+	// err := r.db.Find(&tag, ID).Error
+	err := r.db.Where(&Orders{User_ID: id}).Find(&orders).Error
+	if err != nil {
+		println("=====================")
+		println("ERROR WHILE FBI")
+		println("=====================")
+	}
+
+	return orders, err
 }
 
 // func (r *repository) UpdateTag(tag Tag) (Tag, error) {
